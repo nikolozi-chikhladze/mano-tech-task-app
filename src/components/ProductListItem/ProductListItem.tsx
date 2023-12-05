@@ -23,7 +23,10 @@ export const ProductListItem = ({product}: ProductListItemProps) => {
   );
 
   return (
-    <TouchableOpacity style={styles.container} onPress={goToProductDetails}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={goToProductDetails}
+      key={product.id}>
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}

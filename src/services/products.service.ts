@@ -18,7 +18,7 @@ export const productApi = createApi({
         url: 'users/products',
         method: 'POST',
       }),
-      transformResponse: response => response.data?.items,
+      transformResponse: response => response.data,
     }),
     getProductById: builder.query({
       query: productId => `users/products/${productId}`,

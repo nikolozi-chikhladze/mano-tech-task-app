@@ -9,7 +9,6 @@ import {
   setPage,
 } from '../../store/productsSlice';
 import {useSelector} from 'react-redux';
-import {Product} from '../../schema';
 
 const skeletons = [{}, {}, {}, {}, {}, {}];
 
@@ -23,8 +22,7 @@ export const useLogic = () => {
 
   useLayoutEffect(() => {
     fetchProducts({}).then(_data => {
-      console.log({_data});
-      dispatch(serializeProducts(_data));
+      dispatch(serializeProducts(_data.data.items));
       setIsLoading(false);
     });
   }, [dispatch, fetchProducts]);
