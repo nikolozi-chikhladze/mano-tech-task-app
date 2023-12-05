@@ -7,23 +7,22 @@ import {ProductListItemSkeleton} from '../ProductListItemSkeleton/ProductListIte
 import {Product} from '../../schema';
 
 export const ProductsList = () => {
-  const {products, isLoading, skeletons} = useLogic();
+  const {data, isLoading, onEndReached, skeletons} = useLogic();
 
   return (
-    <>
-      <FlatList
-        style={styles.list}
-        data={isLoading ? skeletons : products}
-        renderItem={({item}) =>
-          isLoading ? (
-            <ProductListItemSkeleton />
-          ) : (
-            <ProductListItem product={item as Product} />
-          )
-        }
-        initialNumToRender={10}
-        numColumns={2}
-      />
-    </>
+    <FlatList
+      style={styles.list}
+      data={isLoading ? skeletons : data}
+      renderItem={({item}) =>
+        isLoading ? (
+          <ProductListItemSkeleton />
+        ) : (
+          <ProductListItem product={item as Product} />
+        )
+      }
+      initialNumToRender={10}
+      numColumns={2}
+      onEndReached={onEndReached}
+    />
   );
 };

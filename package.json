@@ -8,7 +8,6 @@
     "start": "react-native start --reset-cache",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "prestart": "watchman watch-del '/Users/Nikolozi_Chikhladze/Dev/Private/manoTechTaskApp' ; watchman watch-project '/Users/Nikolozi_Chikhladze/Dev/Private/manoTechTaskApp'",
     "postinstall": "patch-package && pod-install"
   },
   "dependencies": {

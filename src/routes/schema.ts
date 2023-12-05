@@ -5,10 +5,11 @@ import {
   PRODUCT_DETAILS_SCREEN,
 } from './constants';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Product} from '../schema';
 
 export type RootStackParamsList = {
   [HOME_SCREEN]: undefined;
-  [PRODUCT_DETAILS_SCREEN]: {productId: number};
+  [PRODUCT_DETAILS_SCREEN]: {product: Product};
   [IMAGE_ZOOMABLE_SCREEN]: {uri: string};
 };
 

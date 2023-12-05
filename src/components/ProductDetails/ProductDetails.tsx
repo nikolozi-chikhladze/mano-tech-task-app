@@ -5,24 +5,17 @@ import {styles} from './styles';
 import {Typography} from '../shared/Typography/Typography';
 import {Tag} from '../shared/Tag/Tag';
 
-interface Props {
-  productId: number;
-}
-
-export const ProductDetails = ({productId}: Props) => {
-  const {product, isAvailable, goToZoomableImageScreen} = useLogic(productId);
+export const ProductDetails = () => {
+  const {product, isAvailable, goToZoomableImageScreen} = useLogic();
 
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={goToZoomableImageScreen}>
         <Image
-          source={{
-            uri: 'https://www.shutterstock.com/image-vector/stacked-tower-abstract-server-hdd-260nw-2099038765.jpg',
-          }}
+          source={{uri: product?.images[0].original}}
           style={styles.image}
         />
       </TouchableOpacity>
-      {/* <Image source={{uri: product?.images[0].original}} style={styles.image} /> */}
       <View style={styles.content}>
         <Tag
           label={isAvailable ? 'In Stock' : 'Out of stock'}

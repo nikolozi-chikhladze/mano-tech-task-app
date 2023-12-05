@@ -18,8 +18,8 @@ export const ProductListItem = ({product}: ProductListItemProps) => {
   const {navigate} = useNavigation<RootStackNavigationProps>();
 
   const goToProductDetails = useCallback(
-    () => navigate(PRODUCT_DETAILS_SCREEN, {productId: product.id}),
-    [navigate, product.id],
+    () => navigate(PRODUCT_DETAILS_SCREEN, {product}),
+    [navigate, product],
   );
 
   return (
@@ -27,7 +27,12 @@ export const ProductListItem = ({product}: ProductListItemProps) => {
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}
-          source={{uri: product.images[0].thumbnail}}
+          source={{
+            uri:
+              product?.images?.length > 0
+                ? product.images[0].thumbnail
+                : 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png',
+          }}
         />
       </View>
       <View style={styles.content}>

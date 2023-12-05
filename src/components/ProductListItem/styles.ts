@@ -7,7 +7,6 @@ export const styles = StyleSheet.create({
     flex: 0.5,
     paddingVertical: 8,
     margin: 8,
-    borderWidth: 1,
     borderColor: '#242424',
     backgroundColor: '#fff',
     borderRadius: 4,
@@ -15,7 +14,6 @@ export const styles = StyleSheet.create({
   image: {
     height: 180,
     width: '100%',
-    borderWidth: 1,
   },
   imageContainer: {paddingHorizontal: 12, alignItems: 'center'},
   content: {paddingHorizontal: 12, flex: 1},

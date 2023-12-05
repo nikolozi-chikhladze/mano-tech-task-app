@@ -11,7 +11,6 @@ export const styles = StyleSheet.create({
   image: {
     height: 350,
     aspectRatio: 1,
-    borderWidth: 1,
     marginTop: 24,
   },
   content: {
