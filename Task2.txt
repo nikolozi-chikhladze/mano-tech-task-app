@@ -1,0 +1,113 @@
+import {makeObservable, observable, action} from 'mobx';
+
+/**
+ * 1. Create the axios API with base url to utilize it further
+ * 2. Generalize getting response.data for all api calls via transformResponse
+ * 3. Adding some validations for addToCart and removeFromCart
+ * 4. For removeFromCart functionality i would change logic since in current implementation
+ *      we are running over the given cartItems twice (once when searching for index, second we splice array
+ *      meaning after delete moving each element by one index - looks bad in terms of time complexity)
+ * 5. For case where item to remove is not found error handling would be the best case
+ */
+
+const exampleAPI = axios.create({
+  baseURL: 'https://example-api.com/',
+  timeout: 1000,
+  headers: {
+    Accept: 'application/vnd.GitHub.v3+json',
+    //'Authorization': 'token <your-token-here> -- https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token'
+  },
+  transformResponse: [
+    data => {
+      let resp;
+      try {
+        resp = JSON.parse(data);
+      } catch (error) {
+        throw Error(
+          `[requestClient] Error parsingJSON data - ${JSON.stringify(error)}`,
+        );
+      }
+      if (resp.status === 'success') {
+        return resp.data;
+      } else {
+        throw Error(`Request failed with reason -  ${data}`);
+      }
+    },
+  ],
+});
+
+class ProductsStore {
+  products = [];
+  cartItems = [];
+  addresses = [];
+
+  constructor() {
+    makeObservable(this);
+  }
+
+  fetchProducts() {
+    // axios
+    //   .get('https://example-api.com/products')
+    //   .then(response => {
+    //     this.products = response.data;
+    //   })
+    //   .catch(error => console.error('Error fetching products: ', error));
+    exampleAPI
+      .get('/products')
+      .then(data => {
+        this.products = data;
+      })
+      .catch(error => console.error('Error fetching products: ', error));
+  }
+
+  fetchAddresses() {
+    // axios
+    //   .get('https://example-api.com/addresses')
+    //   .then(response => {
+    //     this.addresses = response.data;
+    //   })
+    //   .catch(error => console.error('Error fetching addresses: ', error));
+    exampleAPI
+      .get('/addresses')
+      .then(data => {
+        this.addresses = data;
+      })
+      .catch(error => console.error('Error fetching addresses: ', error));
+  }
+
+  addToCart(product) {
+    if (product) {
+      this.cartItems.push(product);
+    }
+  }
+
+  removeFromCart(productId) {
+    // const index = this.cartItems.findIndex(item => item.id === productId);
+    // if (index !== -1) {
+    //   this.cartItems.splice(index, 1);
+    // }
+
+    if (this.cartItems.length > 0) {
+      const newCartArray = [];
+      let removedItem = null;
+
+      for (let i = 0; i < this.cartItems.length; i++) {
+        const element = this.cartItems[i];
+        if (element.id === productId) {
+          removedItem = element;
+          continue;
+        }
+        newCartArray.push(element);
+      }
+
+      if (!removedItem) {
+        throw Error('Product with given id not found for deletion');
+      }
+
+      this.cartItems = newCartArray;
+      return removedItem;
+    }
+  }
+}
+const store = new ProductsStore();
+export default store;

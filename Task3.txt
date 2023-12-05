@@ -1,0 +1,58 @@
+import React, {useState, useCallback, memo} from 'react';
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  TextInputProps,
+  TouchableOpacity,
+  Text,
+} from 'react-native';
+
+/**
+ * 1. TouchableOpacity can be reused as a SubmitButton component
+ * 2. For SubmitButton there are two render (renders at each entered
+ *      character at the moment) optimisations available:
+ *    2.1 useCallback for the onPress method
+ *    2.2 React.memo for the component memoization
+ * 3. For Input component props we can omit creation of a new type
+ *      in case we don't want to add any props
+ * 4. styles.container looks missing, so i would add it
+ * 5. For separation of concerns i would split all the components
+ *      into specific folders with its own styles.ts file
+ */
+
+// type Props = {} & TextInputProps;
+
+const Input: React.FC<TextInputProps> = props => {
+  return <TextInput {...props} />;
+};
+
+const SubmitButton = memo(({submit}: {submit: () => void}) => (
+  <TouchableOpacity onPress={submit}>
+    <Text style={styles.title}>DONE</Text>
+  </TouchableOpacity>
+));
+
+const Screen: React.FC = ({navigation}) => {
+  const [name, setName] = useState('');
+  const submitName = useCallback(() => {
+    navigation.navigate('AnotherScreen', {name});
+  }, [navigation]);
+
+  return (
+    <View style={styles.container}>
+      <Input value={name} onChangeText={text => setName(text)} />
+      {/* <TouchableOpacity onPress={() => submitName()}>
+        <Text style={styles.title}>DONE</Text>
+      </TouchableOpacity> */}
+      <SubmitButton submit={submitName} />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 20,
+    color: 'red',
+  },
+});
