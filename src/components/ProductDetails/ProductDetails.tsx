@@ -4,9 +4,14 @@ import {Image, TouchableOpacity, View} from 'react-native';
 import {styles} from './styles';
 import {Typography} from '../shared/Typography/Typography';
 import {Tag} from '../shared/Tag/Tag';
+import {Loader} from '../Loader/Loader';
 
 export const ProductDetails = () => {
-  const {product, isAvailable, goToZoomableImageScreen} = useLogic();
+  const {product, isAvailable, goToZoomableImageScreen, isLoading} = useLogic();
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <View style={styles.container}>

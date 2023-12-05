@@ -2,7 +2,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {Product} from '../schema';
 
-// Define a service using a base URL and expected endpoints
 export const productApi = createApi({
   reducerPath: 'productApi',
   baseQuery: fetchBaseQuery({
@@ -14,14 +13,16 @@ export const productApi = createApi({
     },
   }),
   endpoints: builder => ({
-    getProducts: builder.mutation<Product, undefined>({
+    getProducts: builder.mutation({
       query: () => ({
         url: 'users/products',
         method: 'POST',
       }),
+      transformResponse: response => response.data?.items,
     }),
-    getProductById: builder.query<any, string>({
+    getProductById: builder.query({
       query: productId => `users/products/${productId}`,
+      transformResponse: (response: {data: Product}) => response.data,
     }),
   }),
 });

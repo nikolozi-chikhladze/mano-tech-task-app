@@ -5,11 +5,13 @@ import {RootState} from '.';
 
 interface ProductsState {
   data: Product[][];
+  feed: Product[];
   page: number;
 }
 
 const initialState: ProductsState = {
   data: [],
+  feed: [],
   page: 1,
 };
 
@@ -22,13 +24,13 @@ export const productsSlice = createSlice({
       let currentPage = 1;
       let tempArray = [];
 
-      for (let i = 1; i < 20; i++) {
-        if (i % 19 === 0) {
+      for (let i = 0; i < action.payload.length; i++) {
+        if (i % 20 === 0 && tempArray.length > 0) {
           pageableProducts[currentPage] = [...tempArray];
           tempArray = [];
           currentPage++;
         }
-        const element = action.payload[i - 1];
+        const element = action.payload[i];
         tempArray.push(element);
       }
 
@@ -38,9 +40,11 @@ export const productsSlice = createSlice({
       }
 
       state.data = pageableProducts;
+      state.feed = pageableProducts[state.page];
     },
     setPage(state, action: PayloadAction<number>) {
       state.page = action.payload;
+      state.feed = [...state.feed, ...state.data[state.page]];
     },
   },
 });
@@ -48,13 +52,11 @@ export const productsSlice = createSlice({
 export const {setPage, serializeProducts} = productsSlice.actions;
 
 export const getProducts = (state: RootState) => {
-  if (state.products.data.length <= state.products.page - 1) {
-    return state.products.data[state.products.page - 1];
-  } else {
-    return [];
-  }
+  return state.products.data;
 };
 
 export const getCurrentPage = (state: RootState) => state.products.page;
+
+export const getFeed = (state: RootState) => state.products.feed;
 
 export default productsSlice.reducer;

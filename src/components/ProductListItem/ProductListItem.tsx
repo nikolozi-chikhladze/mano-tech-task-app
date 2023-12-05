@@ -18,7 +18,7 @@ export const ProductListItem = ({product}: ProductListItemProps) => {
   const {navigate} = useNavigation<RootStackNavigationProps>();
 
   const goToProductDetails = useCallback(
-    () => navigate(PRODUCT_DETAILS_SCREEN, {product}),
+    () => navigate(PRODUCT_DETAILS_SCREEN, {productId: product.id}),
     [navigate, product],
   );
 
