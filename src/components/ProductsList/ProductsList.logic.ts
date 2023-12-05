@@ -1,9 +1,12 @@
 import {useEffect, useState} from 'react';
 import {Product} from '../../schema';
 import {useGetProductsMutation} from '../../services/products.service';
+import {response} from '../../mock';
+
+const skeletons = [{}, {}, {}, {}, {}, {}];
 
 export const useLogic = () => {
-  const [products] = useState<Product[]>([]);
+  const [products] = useState<Product[]>(response.data.items);
   const [isLoading, setIsLoading] = useState(true);
 
   const [fetchProducts] = useGetProductsMutation();
@@ -15,5 +18,5 @@ export const useLogic = () => {
     });
   }, [fetchProducts]);
 
-  return {products, isLoading};
+  return {products, isLoading, skeletons};
 };
