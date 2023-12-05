@@ -1,21 +1,19 @@
 import {useEffect, useState} from 'react';
-import {response} from '../../mock';
 import {Product} from '../../schema';
+import {useGetProductsMutation} from '../../services/products.service';
 
 export const useLogic = () => {
-  const [data, setData] = useState<Product[]>([]);
+  const [products] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const [fetchProducts] = useGetProductsMutation();
+
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setData(response.data.items);
+    fetchProducts(undefined).then(data => {
+      console.log(data);
       setIsLoading(false);
-    }, 500);
+    });
+  }, [fetchProducts]);
 
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
-
-  return {data, isLoading};
+  return {products, isLoading};
 };

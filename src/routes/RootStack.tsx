@@ -23,6 +23,10 @@ export const RootStack = () => (
       component={ItemDetailsScreen}
       options={{headerShown: true, headerTitle: 'Product Details'}}
     />
-    <Screen name={IMAGE_ZOOMABLE_SCREEN} component={ImageZoomableScreen} />
+    <Screen
+      options={{headerShown: true, headerTitle: ''}}
+      name={IMAGE_ZOOMABLE_SCREEN}
+      component={ImageZoomableScreen}
+    />
   </Navigator>
 );

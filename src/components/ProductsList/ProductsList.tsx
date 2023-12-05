@@ -6,7 +6,7 @@ import {ProductListItem} from '../ProductListItem/ProductListItem';
 import {styles} from './styles';
 
 export const ProductsList = () => {
-  const {data, isLoading} = useLogic();
+  const {products, isLoading} = useLogic();
 
   if (isLoading) {
     return <Loader />;
@@ -15,7 +15,7 @@ export const ProductsList = () => {
   return (
     <FlatList
       style={styles.list}
-      data={data}
+      data={products}
       renderItem={({item}) => <ProductListItem product={item} />}
       initialNumToRender={10}
       numColumns={2}
